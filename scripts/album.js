@@ -77,14 +77,6 @@ var albumPicasso = {
      }
  };
 
- var findParentByClassName = function(element, targetClass) {
-    var currentParent = element.parentElement;
-    while (currentParent.className != targetClass) {
-        currentParent = currentParent.parentElement;
-    }
-    return currentParent;
-};
-
  var getSongItem = function(element) {
      switch (element.className) {
          case 'album-song-button':
@@ -101,6 +93,16 @@ var albumPicasso = {
          default:
              return;
      }
+ };
+
+ var findParentByClassName = function(element, targetClass) {
+    var currentParent = element.parentElement;
+    while (currentParent.className != targetClass) {
+        currentParent = currentParent.parentElement;
+        console.log(No parent found with that class name);
+    }
+    return currentParent;
+        console.log(No parent found);
  };
 
   var clickHandler = function(targetElement) {
