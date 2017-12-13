@@ -1,48 +1,3 @@
-var albumPicasso = {
-     title: 'The Colors',
-     artist: 'Pablo Picasso',
-     label: 'Cubism',
-     year: '1881',
-     albumArtUrl: 'assets/images/album_covers/01.png',
-     songs: [
-         { title: 'Blue', duration: '4:26' },
-         { title: 'Green', duration: '3:14' },
-         { title: 'Red', duration: '5:01' },
-         { title: 'Pink', duration: '3:21'},
-         { title: 'Magenta', duration: '2:15'}
-     ]
- };
-
- var albumMarconi = {
-     title: 'The Telephone',
-     artist: 'Guglielmo Marconi',
-     label: 'EM',
-     year: '1909',
-     albumArtUrl: 'assets/images/album_covers/20.png',
-     songs: [
-         { title: 'Hello, Operator?', duration: '1:01' },
-         { title: 'Ring, ring, ring', duration: '5:01' },
-         { title: 'Fits in your pocket', duration: '3:21'},
-         { title: 'Can you hear me now?', duration: '3:14' },
-         { title: 'Wrong phone number', duration: '2:15'}
-     ]
- };
-
- var albumKitties = {
-     title: 'The Mad Meower',
-     artist: 'The Kitties',
-     label: 'Cheezeburger',
-     year: '2017',
-     albumArtUrl: 'assets/images/album_covers/20.png',
-     songs: [
-         { title: 'The Food Bowl is Empty', duration: '1:01' },
-         { title: '4 am...DESTROY', duration: '5:01' },
-         { title: 'Mom Got the Wrong Food...Again', duration: '3:21'},
-         { title: 'LAZERZ', duration: '3:14' },
-         { title: 'Meow', duration: '2:15'}
-     ]
- };
-
  var createSongRow = function(songNumber, songName, songLength) {
      var template =
         '<tr class="album-view-song-item">'
@@ -53,15 +8,46 @@ var albumPicasso = {
       ;
 
       var $row = $(template);
+
       var clickHandler = function() {
-        // clickHandler logic
-    };
-      var onHover = function(event) {
-         // Placeholder for function logic
-     };
-     var offHover = function(event) {
-         // Placeholder for function logic
-     };
+
+    var songNumber = $(this).attr('data-song-number');
+     if (currentlyPlayingSongNumber !== null) {
+              var currentlyPlayingCell = $('.song-item-number[data-song-number="' + currentlyPlayingSongNumber + '"]');
+              currentlyPlayingCell.html(currentlyPlayingSongNumber);
+    }
+
+     if (currentlyPlayingSongNumber !== songNumber) {
+
+        $(this).html(pauseButtonTemplate);
+         currentlyPlayingSongNumber = songNumber;
+         currentSongFromAlbum = currentAlbum.songs[songNumber - 1];
+     } else if (currentlyPlayingSongNumber === songNumber) {
+
+        $(this).html(playButtonTemplate);
+         currentlyPlayingSongNumber = null;
+         currentSongFromAlbum = null;
+    }
+
+};
+
+var onHover = function(event) {
+    var songNumberCell = $(this).find('.song-item-number');
+    var songNumber = songNumberCell.attr('data-song-number');
+
+     if (songNumber !== currentlyPlayingSongNumber) {
+        songNumberCell.html(playButtonTemplate);
+    }
+};
+
+var offHover = function(event) {
+    var songNumberCell = $(this).find('.song-item-number');
+    var songNumber = songNumberCell.attr('data-song-number');
+
+      if (songNumber !== currentlyPlayingSongNumber) {
+       songNumberCell.html(songNumber);
+    }
+};
 
       $row.find('.song-item-number').click(clickHandler);
            // #2
@@ -77,7 +63,8 @@ var albumPicasso = {
    var $albumSongList = $('.album-view-song-list');
 
   var setCurrentAlbum = function(album) {
-  // #2
+    currentAlbum = album;
+
    $albumTitle.text(album.title);
    $albumArtist.text(album.artist);
    $albumReleaseInfo.text(album.year + ' ' + album.label);
@@ -94,8 +81,9 @@ var albumPicasso = {
 
   var playButtonTemplate = '<a class="album-song-button"><span class="ion-play"></span></a>';
   var pauseButtonTemplate = '<a class="album-song-button"><span class="ion-pause"></span></a>';
-
-  var currentlyPlayingSong = null;
+  var currentAlbum = null;
+  var currentlyPlayingSongNumber = null;
+  var currentSongFromAlbum = null;
 
   $(document).ready(function() {
      setCurrentAlbum(albumPicasso);
