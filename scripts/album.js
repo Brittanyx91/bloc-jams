@@ -123,32 +123,28 @@ var filterTimeCode = function(timeInSeconds) {
 
     };
 
-var onHover = function(event) {
-    var songNumberCell = $(this).find('.song-item-number');
-    var songNumber = songNumberCell.attr('data-song-number');
+  var onHover = function(event) {
+        var songNumberCell = $(this).find('.song-item-number');
+        var songNumber = parseInt(songNumberCell.attr('data-song-number'));
 
-     if (songNumber !== setSong) {
-        songNumberCell.html(playButtonTemplate);
-    }
-};
+        if (songNumber !== currentlyPlayingSongNumber) {
+            songNumberCell.html(playButtonTemplate);
+        }
+  };
+  var offHover = function(event) {
+      var songNumberCell = $(this).find('.song-item-number');
+      var songNumber = parseInt(songNumberCell.attr('data-song-number'));
 
-var offHover = function(event) {
-    var songNumberCell = $(this).find('.song-item-number');
-    var songNumber = songNumberCell.attr('data-song-number');
+        if (songNumber !== currentlyPlayingSongNumber) {
+           songNumberCell.html(songNumber);
+          }
+           console.log("songNumber type is " + typeof songNumber + "\n and currentlyPlayingSongNumber type is " + typeof currentlyPlayingSongNumber);
+  };
 
-      if (songNumber !== setSong) {
-       songNumberCell.html(songNumber);
-       }
-       console.log("songNumber type is " + typeof songNumber + "\n and setSong type is " + typeof setSong);
-
-};
-
-      $row.find('.song-item-number').click(clickHandler);
-           // #2
-           $row.hover(onHover, offHover);
-           // #3
-           return $row;
- };
+       $row.find('.song-item-number').click(clickHandler);
+       $row.hover(onHover, offHover);
+       return $row;
+   };
 
 
 
